@@ -1,7 +1,9 @@
 # Fluid Package Manager
+### Warning: This project is under development
 
 The package manager from BeverageOS. Being a fundamental part of the project.
 This version is the first of the project, and it's just an MVP.
+
 
 ## Usage
 
