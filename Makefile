@@ -1,41 +1,44 @@
-# Compiler and Flags
-CC := gcc
-CFLAGS := -O2 -Wall -Wextra -g
+# =========================
+# Makefile for Fluid Project
+# =========================
 
-# Folders
-SRC_DIR := src
-BUILD_DIR := build
+# Compiler
+CC = gcc
 
-# Output Program
-TARGET := $(BUILD_DIR)/install_nano
+# Compilation flags
+CFLAGS = -Wall -Wextra -O2 -Iinclude
 
-# All C files in $(SRC_DIR)
-SRCS := $(wildcard $(SRC_DIR)/*.c)
+# Linker flags (libraries)
+LDLIBS = -lsqlite3 -lcurl -llzma -ltar
 
-# Objects
-OBJS := $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRCS))
+# Source and build directories
+SRC_DIR = src
+BUILD_DIR = build
 
-# Rules
-all: $(BUILD_DIR) $(TARGET)
+# Find all .c source files
+SRCS = $(wildcard $(SRC_DIR)/*.c)
+OBJS = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRCS))
 
-# Cretae build folder
+# Final binary
+TARGET = $(BUILD_DIR)/fluid
+
+# Default target
+all: $(TARGET)
+
+# Link object files into final binary
+$(TARGET): $(OBJS) | $(BUILD_DIR)
+	$(CC) $(OBJS) -o $@ $(LDLIBS)
+
+# Compile .c files into .o files
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Ensure build directory exists
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
-# Create executable rule
-$(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $@
-
-# Compile objects rule
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
-# Cleaning
+# Clean build artifacts
 clean:
 	rm -rf $(BUILD_DIR)/*.o $(TARGET)
-
-# Installation
-install: $(TARGET)
-	cp install_nano /usr/bin/
 
 .PHONY: all clean

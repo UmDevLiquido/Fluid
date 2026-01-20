@@ -1,4 +1,4 @@
-#include "fetch.h"
+#include "include/fluid.h"
 #include <stdio.h>
 #include <libtar.h>
 #include <lzma.h>
@@ -120,7 +120,7 @@ int install_tar(char *name, char **post_install){
 			buf[size] = '\0';
 
 			/* ownership of buf is transferred to post_install */
-			post_install = buf;
+			*post_install = buf;
 
 			if (size % 512) {
 				char dummy[512];
