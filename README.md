@@ -32,6 +32,6 @@ In the first time you execute fluid, it will create a basic mirrors file, which 
 If you want to include your own mirror list (or server in the future), you just have to edit and add the url of the mirror.
 
 ## Installing Fluid
-Just execute the `install.sh` file
+Just execute the command `make -j8 && make install` on bash
 
 ## Thanks for reading and support the project >.<
